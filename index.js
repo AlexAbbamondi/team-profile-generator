@@ -20,7 +20,8 @@ const managerQuestions = () => {
         type: "input",
         name: "officeNum",
         message: "What is the manager's office number?",
-      },
+        ...validateNumbers()
+      }
     ])
     .then((managerInfo) => {
       const { name, id, email, officeNum } = managerInfo;
@@ -36,7 +37,7 @@ const employeeQuestion = () => {
         type: "list",
         name: "role",
         choices: ["Engineer", "Intern", "Finish building My Team"],
-      },
+      }
     ])
     .then((employeeRole) => {
       const { role } = employeeRole;
@@ -63,6 +64,13 @@ const engineerQuestions = () => {
         type: "input",
         name: "github",
         message: "What is the engineer's Github username?",
+        validate: input => {
+          if(input === "") {
+            return "Please enter a Github username."
+          } else {
+            return true;
+          }
+        }
       },
     ])
     .then((engineerInfo) => {
@@ -84,6 +92,7 @@ const internQuestions = () => {
         type: "input",
         name: "school",
         message: "What school does the intern go to?",
+        ...validateStrings()
       },
     ])
     .then((internInfo) => {
@@ -100,6 +109,7 @@ const getNamePrompt = (title) => {
       type: "input",
       name: "name",
       message: "What is the " + title +  "'s name?",
+      ...validateStrings()
     }
 }
 
@@ -108,6 +118,7 @@ const getIdPrompt = (title) => {
         type: "input",
         name: "id",
         message: "What is the " + title + "'s employee id number?",
+        ...validateNumbers()
       }
 }
 
@@ -116,8 +127,36 @@ const getEmailPrompt = (title) => {
         type: "input",
         name: "email",
         message: "What is " + title + "'s email address?",
-      }
+        ...validateStrings()
+    }
 }
+
+const validateNumbers = () => ({
+  validate: input => {
+      if (input === "" || input <= 0 || isNaN(input)) {
+          return 'Please provide a valid number greater then 0';
+      } else {
+        return true;
+      }
+  },
+  filter: input => {
+      // clear the invalid input
+      return isNaN(input) || Number(input) <= 0 ? '' : input;
+  },
+})
+
+const validateStrings = () => ({
+  validate: input => {
+    if(input === "" || !isNaN(input)) {
+      return 'Please enter a valid word';
+    } else {
+      return true;
+    }
+  },
+  filter: input => {
+      return input === "" || !isNaN(input) ? "" : input;
+  }
+})
 
 const writeToFile = (fileName, data) => {
   fs.writeFile(path.join(process.cwd(), fileName), data, (err) => {

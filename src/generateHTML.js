@@ -34,7 +34,6 @@ const generateHTML = teamMembersArr => {
             default:
                 break;
         }
-        
     }
 
     return `

@@ -6,8 +6,8 @@ const EmployeeView = class EmployeeView {
     draw() {
         return `
         <div class="col my-auto d-flex justify-content-around">
-            <div class="card custom-card" style="width: 18rem;">
-                <div class="card-header bg-primary text-white p-3 h3">
+            <div class="card custom-card mb-4" style="width: 18rem;">
+                <div class="card-header bg-primary text-white p-3 h4">
                 ${this.drawIcon()} ${this.employee.name}
                 <div class="mt-2">
                     ${this.employee.getRole()}

@@ -1,15 +1,20 @@
+//Required modules to be imported
 const fs = require("fs");
 const path = require("path");
 const inquirer = require("inquirer");
 
+//Required js file to be imported
 const generateHTML = require("./src/generateHTML");
 
+//Required Class constructors to be imported
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 
+//Empty array to store all of the users input about the manager, engineer(s), and intern(s)
 const teamMembersArr = [];
 
+//First the user is prompted with the manager questions
 const managerQuestions = () => {
   return inquirer
     .prompt([
@@ -23,6 +28,7 @@ const managerQuestions = () => {
         ...validateNumbers()
       }
     ])
+    //Manager info is pushed and stored in the teamMemebersArr array
     .then((managerInfo) => {
       const { name, id, email, officeNum } = managerInfo;
       const manager = new Manager(name, id, email, officeNum);
@@ -30,6 +36,7 @@ const managerQuestions = () => {
     });
 };
 
+//Next the User selects whether they want to choose an engineer, intern, of finish building the team
 const employeeQuestion = () => {
   return inquirer
     .prompt([
@@ -39,6 +46,7 @@ const employeeQuestion = () => {
         choices: ["Engineer", "Intern", "Finish building My Team"],
       }
     ])
+    //based on the user's selection, either the engineer or intern questions will be asked, or the file will be generated
     .then((employeeRole) => {
       const { role } = employeeRole;
       switch (role) {
@@ -54,6 +62,7 @@ const employeeQuestion = () => {
     });
 };
 
+//Engineer Questions qill appear if they are selected
 const engineerQuestions = () => {
   return inquirer
     .prompt([
@@ -73,6 +82,7 @@ const engineerQuestions = () => {
         }
       },
     ])
+    //Engineer info is pushed and stored in the teamMembersArr array
     .then((engineerInfo) => {
       const { name, id, email, github } = engineerInfo;
       const engineer = new Engineer(name, id, email, github);
@@ -82,6 +92,7 @@ const engineerQuestions = () => {
     });
 };
 
+//Intern Questions qill appear if they are selected
 const internQuestions = () => {
   return inquirer
     .prompt([
@@ -95,6 +106,7 @@ const internQuestions = () => {
         ...validateStrings()
       },
     ])
+    //Intern info is pushed and stored in the teamMembersArr array
     .then((internInfo) => {
       const { name, id, email, school } = internInfo;
       const intern = new Intern(name, id, email, school);
@@ -104,6 +116,7 @@ const internQuestions = () => {
     });
 };
 
+//Function to pass to the inquirer prompt to get the name for that specific role
 const getNamePrompt = (title) => {
   return {
       type: "input",
@@ -113,6 +126,7 @@ const getNamePrompt = (title) => {
     }
 }
 
+//Function to pass to the inquirer prompt to get the id for that specific role
 const getIdPrompt = (title) => {
     return {
         type: "input",
@@ -122,6 +136,7 @@ const getIdPrompt = (title) => {
       }
 }
 
+//Function to pass to the inquirer prompt to get the email for that specific role
 const getEmailPrompt = (title) => {
     return {
         type: "input",
@@ -131,6 +146,7 @@ const getEmailPrompt = (title) => {
     }
 }
 
+//Function to validate that the input is getting a number and that it is not blank --- also clears the incorrect answers if applicable
 const validateNumbers = () => ({
   validate: input => {
       if (input === "" || input <= 0 || isNaN(input)) {
@@ -145,6 +161,7 @@ const validateNumbers = () => ({
   },
 })
 
+//Function to validate that the input is getting a string and that it is not blank --- also clears the incorrect answers if applicable
 const validateStrings = () => ({
   validate: input => {
     if(input === "" || !isNaN(input)) {
@@ -158,12 +175,15 @@ const validateStrings = () => ({
   }
 })
 
+//Function to take the file name and data and write it out to a file with a console log for an err or success
 const writeToFile = (fileName, data) => {
-  fs.writeFile(path.join(process.cwd(), fileName), data, (err) => {
+  fs.writeFile(path.join("./dist", fileName), data, (err) => {
+    console.log(process.cwd());
     err ? console.log(err) : console.log("Created file successfully!");
   });
 };
 
+//Initializes the program with the manager questioins first then the question to select what type of employee to provide infor for next
 const init = () => {
   managerQuestions()
     .then(employeeQuestion)

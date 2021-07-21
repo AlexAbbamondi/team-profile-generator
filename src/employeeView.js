@@ -1,3 +1,5 @@
+
+//Class made to create a baseline view for manager, intern and engineer cards
 const EmployeeView = class EmployeeView {
     constructor(employee) {
         this.employee = employee;
@@ -25,10 +27,12 @@ const EmployeeView = class EmployeeView {
       `;
     }
 
+    //Used to be overridden depending on what icon is being used
     drawIcon() {
         return ``;
     }
 
+    //Used to be overridden depending on what the last li tag contains
     drawLastLi() {
         return ``;
     }

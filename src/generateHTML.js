@@ -1,23 +1,27 @@
+//Classes to require
 const ManagerView = require("./managerView");
 const EngineerView = require("./engineerView");
 const InternView = require("./internView");
 
+//Creates a new instance of the ManagerView and returns the output of the draw function
 const managerCard = (manager) => {
     const managerView = new ManagerView(manager);
     return managerView.draw();
 }; 
 
+//Creates a new instance of the EngineerView and returns the output of the draw function
 const engineerCard = (engineer) => {
     const engineerView = new EngineerView(engineer);
     return engineerView.draw();
 };
 
+//Creates a new instance of the InternView and returns the output of the draw function
 const internCard = (intern) => {
     const internView = new InternView(intern);
     return internView.draw();
 };
 
-
+//Loops through the teamMembersArr array and depending on their role adds them to the variable card ---  cards get returned within the the return statement which results in the finally html layout
 const generateHTML = teamMembersArr => {
     let cards = "";
     for (let i = 0; i < teamMembersArr.length; i++) {

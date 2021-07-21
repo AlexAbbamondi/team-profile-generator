@@ -183,7 +183,7 @@ const writeToFile = (fileName, data) => {
   });
 };
 
-//Initializes the program with the manager questioins first then the question to select what type of employee to provide infor for next
+//Initializes the program with the manager questions first then the question to select what type of employee to provide infor for next
 const init = () => {
   managerQuestions()
     .then(employeeQuestion)
